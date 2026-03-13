@@ -8,7 +8,7 @@ public class PremiumUser extends User {
         super(builder);
     }
 
-    @Override
+    //Override
     public String toString() {
         return "PremiumUser: " + getName() + " - " + getEmail();
     }

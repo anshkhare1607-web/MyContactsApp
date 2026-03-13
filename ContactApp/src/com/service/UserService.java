@@ -22,7 +22,7 @@ public class UserService {
         try {
 
             System.out.print("Enter name : ");
-            String name = sc.nextLine();
+            String name = sc.nextLine(); 
 
             System.out.print("Enter email : ");
             String email = sc.nextLine();
