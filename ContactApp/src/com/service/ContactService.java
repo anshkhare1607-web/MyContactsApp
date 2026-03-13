@@ -2,6 +2,7 @@ package com.service;
 
 import java.util.*;
 import com.contact.*;
+import com.decorator.*;
 import com.factory.ContactFactory;
 import com.repository.ContactRepository;
 
@@ -53,6 +54,28 @@ public class ContactService {
         repository.save(contact); // saving in repository
 
         System.out.println("Contact created successfully");
+    }
+    
+    // displaying contact using Contact ID
+    public void viewContactDetails() {
+
+        System.out.print("Enter Contact ID :");
+        String id = sc.nextLine();
+
+        Optional<Contact> contactOptional = repository.findById(id);
+
+        if (contactOptional.isEmpty()) {
+            System.out.println("Contact not found");
+            return;
+        }
+
+        ContactView view = new ContactView(contactOptional.get());
+
+        ContactDisplay display =
+                new FormattedContactDisplay(new BasicContactDisplay());
+
+        System.out.println("\n===== CONTACT DETAILS =====");
+        System.out.println(display.display(view));
     }
 
     public void viewContacts() {

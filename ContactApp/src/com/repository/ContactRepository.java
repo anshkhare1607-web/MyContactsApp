@@ -16,4 +16,10 @@ public class ContactRepository {
     public List<Contact> getAllContacts() {
         return contacts;
     }
+    
+    public Optional<Contact> findById(String id) {
+        return contacts.stream()
+                .filter(c -> c.getId().toString().equals(id))
+                .findFirst();
+    }
 }

@@ -65,7 +65,8 @@ public class MenuController {
             System.out.println("4 Update Preferences");
             System.out.println("5 Create Contact");
             System.out.println("6 View Contacts");
-            System.out.println("7 Logout");
+            System.out.println("7 View Contact Details");
+            System.out.println("8 Logout");
             System.out.print("Enter choice : ");
 
             int choice = sc.nextInt();
@@ -98,6 +99,10 @@ public class MenuController {
                     break;
 
                 case 7:
+                    contactService.viewContactDetails();
+                    break;
+                    
+                case 8:
                     SessionManager.getInstance().logout();
                     System.out.println("Logged out successfully");
                     return;
