@@ -54,7 +54,7 @@ public class UserService {
         System.out.println("\nLogin Method:");
         System.out.println("1. BasicAuth (username + password)");
         System.out.println("2. OAuth (email + password)");
-        System.out.println("\nEnter your choice : ");
+        System.out.print("\nEnter your choice : ");
 
         int choice = sc.nextInt();
         sc.nextLine();

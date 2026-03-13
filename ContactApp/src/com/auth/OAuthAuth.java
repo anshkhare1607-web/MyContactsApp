@@ -30,6 +30,6 @@ public class OAuthAuth implements AuthStrategy {
 
         String hash = PasswordUtil.hashPassword(password); // hash of password
 
-        return repository.findByEmailAndPassword(email, hash);
+        return repository.findByEmailAndPassword(email, hash); // searching by email and hash
     }
 }
