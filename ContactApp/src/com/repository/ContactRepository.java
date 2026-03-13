@@ -1,7 +1,7 @@
 package com.repository;
 
 import java.util.*;
-import com.contact.Contact;
+import com.contact.*;
 
 
 // for storing contacts

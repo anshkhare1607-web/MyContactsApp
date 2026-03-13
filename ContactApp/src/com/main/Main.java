@@ -1,8 +1,8 @@
 /*
- * UC-05: View Contact Details
+ * UC-06: Edit Contact
  * 
  * author : Developer
- * version : 5.0
+ * version : 6.0
  */
 
 

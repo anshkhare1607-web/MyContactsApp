@@ -21,6 +21,23 @@ public abstract class Contact {
         this.createdAt = LocalDateTime.now();
     }
 
+ // Copy constructor
+    public Contact(Contact other) {
+        this.id = other.id;
+        this.name = other.name;
+
+        this.phones = new ArrayList<>();
+        for (PhoneNumber p : other.phones) {
+            this.phones.add(new PhoneNumber(p.getNumber()));
+        }
+
+        this.emails = new ArrayList<>();
+        for (EmailAddress e : other.emails) {
+            this.emails.add(new EmailAddress(e.getEmail()));
+        }
+
+        this.createdAt = other.createdAt;
+    }
     
     // getters
     public UUID getId() {
@@ -41,6 +58,32 @@ public abstract class Contact {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+    
+    // setters
+    public void setName(String name) {
+        if (name == null || name.isEmpty())
+            throw new IllegalArgumentException("Name cannot be empty");
+
+        this.name = name;
+    }
+
+    public void setPhones(List<PhoneNumber> phones) {
+        this.phones = new ArrayList<>(phones);
+    }
+
+    public void setEmails(List<EmailAddress> emails) {
+        this.emails = new ArrayList<>(emails);
+    }
+
+    public ContactMemento saveState() {
+        return new ContactMemento(this);
+    }
+
+    public void restoreState(ContactMemento memento) {
+        this.name = memento.getName();
+        this.phones = new ArrayList<>(memento.getPhones());
+        this.emails = new ArrayList<>(memento.getEmails());
     }
 
     // building contact step by step

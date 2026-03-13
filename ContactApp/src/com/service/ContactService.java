@@ -3,6 +3,7 @@ package com.service;
 import java.util.*;
 import com.contact.*;
 import com.decorator.*;
+import com.command.*;
 import com.factory.ContactFactory;
 import com.repository.ContactRepository;
 
@@ -11,6 +12,8 @@ public class ContactService {
 
     private ContactRepository repository = new ContactRepository();
     private Scanner sc = new Scanner(System.in);
+    
+    private CommandManager commandManager = new CommandManager();
 
     public void createContact() {
 
@@ -48,7 +51,7 @@ public class ContactService {
                 .setPhones(phones)
                 .setEmails(emails);
 
-        // factory for oject creation
+        // factory for object creation
         Contact contact = ContactFactory.createContact(type, builder);
 
         repository.save(contact); // saving in repository
@@ -56,6 +59,42 @@ public class ContactService {
         System.out.println("Contact created successfully");
     }
     
+    // edit contact method
+    public void editContact() {
+
+        System.out.print("Enter Contact ID : ");
+        String id = sc.nextLine();
+
+        Optional<Contact> contactOpt = repository.findById(id);
+
+        if (contactOpt.isEmpty()) {
+            System.out.println("Contact not found");
+            return;
+        }
+
+        Contact contact = contactOpt.get();
+
+        System.out.print("Enter new name : ");
+        String newName = sc.nextLine();
+
+        EditContactCommand command =
+                new EditContactCommand(contact, newName);
+
+        commandManager.executeCommand(command);
+
+        System.out.println("Contact updated");
+    }
+
+    public void undoEdit() {
+        commandManager.undo();
+        System.out.println("Undo successful");
+    }
+
+    public void redoEdit() {
+        commandManager.redo();
+        System.out.println("Redo successful");
+    }
+
     // displaying contact using Contact ID
     public void viewContactDetails() {
 
