@@ -28,6 +28,7 @@ public abstract class User {
 
     public static class UserBuilder {
 
+    	// for building object step by step
         private String name;
         private String email;
         private String passwordHash;
