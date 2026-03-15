@@ -1,8 +1,8 @@
 /*
- * UC-11: Create and Manage Tags
+ * UC-12: Apply Tags to Contacts
  * 
  * author : Developer
- * version : 11.0
+ * version : 12.0
  */
 
 
