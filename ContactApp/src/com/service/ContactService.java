@@ -7,6 +7,7 @@ import com.command.*;
 import com.factory.ContactFactory;
 import com.repository.ContactRepository;
 import com.observer.*;
+import com.composite.*;
 
 // for managing contact service
 public class ContactService {
@@ -141,7 +142,65 @@ public class ContactService {
 
         }
     }
+    
+    // deleting in bulk
+    public void bulkDeleteContacts() {
 
+        System.out.println("Enter Contact IDs (comma separated) :");
+
+        String input = sc.nextLine();
+
+        List<String> ids = Arrays.stream(input.split(","))
+                .map(String::trim)
+                .toList();
+
+        List<Contact> contacts = repository.findByIds(ids);
+
+        CompositeContactOperation composite = new CompositeContactOperation();
+
+        contacts.forEach(contact ->
+                composite.add(
+                        new SingleContactOperation(contact,
+                                c -> repository.delete(c))
+                )
+        );
+
+        composite.execute();
+
+        System.out.println("Bulk delete completed");
+    }
+
+    // adding tags to multiple contacts
+    public void bulkTagContacts() {
+
+        System.out.print("Enter Contact IDs (comma separated) : ");
+        String input = sc.nextLine();
+
+        List<String> ids = Arrays.stream(input.split(","))
+                .map(String::trim)
+                .toList();
+
+        System.out.print("Enter tag : ");
+
+        String tag = sc.nextLine();
+
+        List<Contact> contacts = repository.findByIds(ids);
+
+        CompositeContactOperation composite = new CompositeContactOperation();
+
+        contacts.forEach(contact ->
+                composite.add(
+                        new SingleContactOperation(contact,
+                                c -> c.addTag(tag))
+                )
+        );
+
+        composite.execute();
+
+        System.out.println("Bulk tagging completed");
+    }
+    
+    
     // displaying contact using Contact ID
     public void viewContactDetails() {
 

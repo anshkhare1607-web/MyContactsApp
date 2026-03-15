@@ -18,6 +18,7 @@ public class ContactRepository {
         contacts.add(contact);
     }
 
+    // fetching all contacts
     public List<Contact> getAllContacts() {
 
         List<Contact> active = new ArrayList<>();
@@ -30,7 +31,16 @@ public class ContactRepository {
 
         return active;
     }
+    
+    // finding in bulk
+    public List<Contact> findByIds(List<String> ids) {
 
+        return contacts.stream()
+                .filter(c -> ids.contains(c.getId().toString()))
+                .toList();
+    }
+
+    // finding one id
     public Optional<Contact> findById(String id) {
 
         return contacts.stream()
@@ -38,6 +48,7 @@ public class ContactRepository {
                 .findFirst();
     }
 
+    // deleting contact
     public void delete(Contact contact) {
 
         contact.markDeleted();

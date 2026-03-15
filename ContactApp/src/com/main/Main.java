@@ -1,8 +1,8 @@
 /*
- * UC-07 : Delete Contact
+ * UC-08: Bulk Operations
  * 
  * author : Developer
- * version : 7.0
+ * version : 8.0
  */
 
 

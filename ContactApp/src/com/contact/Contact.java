@@ -13,7 +13,8 @@ public abstract class Contact {
     protected List<EmailAddress> emails; // multiple emails storage
     protected LocalDateTime createdAt; // time at which the contact is created
     
-    private boolean deleted;
+    private Set<String> tags = new HashSet<>(); // for storing tags
+    private boolean deleted; // for checking if contact is deleted
 
     protected Contact(ContactBuilder builder) {
         this.id = UUID.randomUUID();
@@ -72,6 +73,10 @@ public abstract class Contact {
         this.deleted = true;
     }
     
+    public Set<String> getTags() {
+        return new HashSet<>(tags);
+    }
+    
     // setters
     public void setName(String name) {
         if (name == null || name.isEmpty())
@@ -96,6 +101,10 @@ public abstract class Contact {
         this.name = memento.getName();
         this.phones = new ArrayList<>(memento.getPhones());
         this.emails = new ArrayList<>(memento.getEmails());
+    }
+    
+    public void addTag(String tag) {
+        tags.add(tag);
     }
 
     // building contact step by step
