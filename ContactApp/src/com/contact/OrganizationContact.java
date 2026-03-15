@@ -1,4 +1,5 @@
 package com.contact;
+import com.tag.*;
 
 
 // class for organization contact
@@ -22,6 +23,10 @@ public class OrganizationContact extends Contact {
         for (EmailAddress email : emails) {
             emailList.append(email.getEmail()).append(", ");
         }
+        StringBuilder tagList = new StringBuilder();
+        for (Tag t : getTags()) {
+            tagList.append(t.getName()).append(", ");
+        }
 
         return "\n===== CONTACT DETAILS =====" +
                "\nContact Type: Organization" +
@@ -29,6 +34,8 @@ public class OrganizationContact extends Contact {
                "\nName: " + name +
                "\nPhones: " + phoneList +
                "\nEmails: " + emailList +
+               "\nTags: " + tagList +
+                "\nContact Frequency: " + getContactCount() +
                "\nCreated At: " + createdAt;
     }
 }

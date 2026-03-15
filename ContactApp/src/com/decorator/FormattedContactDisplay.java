@@ -28,6 +28,7 @@ public class FormattedContactDisplay implements ContactDisplay {
                 "\nPhones: " + phones +
                 "\nEmails: " + emails +
                 "\nContact Frequency: " + view.getContactCount() +
+                "\nTags: " + view.getTags()+
                 "\nCreated At: " + view.getCreatedAt();
     }
 }

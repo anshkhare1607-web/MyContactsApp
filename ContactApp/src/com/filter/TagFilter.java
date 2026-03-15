@@ -3,7 +3,7 @@ package com.filter;
 import com.contact.Contact;
 
 // filtering using tags
-public class TagFilter implements ContactFilter {
+public class TagFilter implements ContactFilter { 
 
     private String tag;
 
@@ -16,6 +16,6 @@ public class TagFilter implements ContactFilter {
 
         return contact.getTags()
                 .stream()
-                .anyMatch(t -> t.toLowerCase().contains(tag));
+                .anyMatch(t -> t.getName().toLowerCase().contains(tag));
     }
 }

@@ -1,37 +1,42 @@
 package com.contact;
 
-import java.time.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
+import com.tag.Tag;
 
-// class for Contact structure
+// Base class for Contact structure
 public abstract class Contact {
 
-    protected UUID id; // for storing with unique ID
+    protected UUID id;                     // unique contact ID
     protected String name;
-    protected List<PhoneNumber> phones; // storing more than 1 phone numbers
-    protected List<EmailAddress> emails; // multiple emails storage
-    protected LocalDateTime createdAt; // time at which the contact is created
-    
-    private Set<String> tags = new HashSet<>(); // for storing tags
-    private boolean deleted; // for checking if contact is deleted
-    private int contactCount = 0;
+    protected List<PhoneNumber> phones;   // multiple phone numbers
+    protected List<EmailAddress> emails;  // multiple emails
+    protected LocalDateTime createdAt;    // creation timestamp
+
+    private boolean deleted;              // soft delete flag
+    private int contactCount = 0;         // frequency counter
+
+    // many-to-many relationship with tags
+    private Set<Tag> tags = new HashSet<>();
 
 
-    
+    // Builder constructor
     protected Contact(ContactBuilder builder) {
+
         this.id = UUID.randomUUID();
         this.name = builder.name;
-        this.phones = builder.phones;
-        this.emails = builder.emails;
+
+        this.phones = new ArrayList<>(builder.phones);
+        this.emails = new ArrayList<>(builder.emails);
+
         this.createdAt = LocalDateTime.now();
         this.deleted = false;
-
     }
-    
 
- // Copy constructor
+    // Copy constructor (deep copy)
     public Contact(Contact other) {
+
         this.id = other.id;
         this.name = other.name;
 
@@ -46,9 +51,14 @@ public abstract class Contact {
         }
 
         this.createdAt = other.createdAt;
+        this.deleted = other.deleted;
+        this.contactCount = other.contactCount;
+
+        this.tags = new HashSet<>(other.tags);
     }
-    
-    // getters
+
+
+    // Getters
     public UUID getId() {
         return id;
     }
@@ -58,33 +68,37 @@ public abstract class Contact {
     }
 
     public List<PhoneNumber> getPhones() {
-        return phones;
+        return new ArrayList<>(phones); // defensive copy
     }
 
     public List<EmailAddress> getEmails() {
-        return emails;
+        return new ArrayList<>(emails);
     }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-    
+
     public boolean isDeleted() {
         return deleted;
     }
 
-    public void markDeleted() {
-        this.deleted = true;
-    }
-    
-    public Set<String> getTags() {
-        return new HashSet<>(tags);
-    }
-    
     public int getContactCount() {
         return contactCount;
     }
-    
+
+    public Set<Tag> getTags() {
+        return new HashSet<>(tags);
+    }
+
+
+    // Lifecycle methods
+    public void markDeleted() {
+        this.deleted = true;
+    }
+
+
+    // Frequency tracking
     public void incrementContactCount() {
         contactCount++;
     }
@@ -92,11 +106,13 @@ public abstract class Contact {
     public void resetContactCount() {
         contactCount = 0;
     }
-    
-    // setters
+
+    // Setters with validation
     public void setName(String name) {
-        if (name == null || name.isEmpty())
+
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
+        }
 
         this.name = name;
     }
@@ -109,28 +125,35 @@ public abstract class Contact {
         this.emails = new ArrayList<>(emails);
     }
 
+    // Tag management
+    public void addTag(Tag tag) {
+        tags.add(tag);
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+    }
+
+
+    // Memento Pattern support
     public ContactMemento saveState() {
         return new ContactMemento(this);
     }
 
     public void restoreState(ContactMemento memento) {
+
         this.name = memento.getName();
         this.phones = new ArrayList<>(memento.getPhones());
         this.emails = new ArrayList<>(memento.getEmails());
     }
-    
-    public void addTag(String tag) {
-        tags.add(tag);
-    }
-    
-    
 
-    // building contact step by step
+
+    // Builder Pattern
     public static class ContactBuilder {
 
         protected String name;
-        protected List<PhoneNumber> phones;
-        protected List<EmailAddress> emails;
+        protected List<PhoneNumber> phones = new ArrayList<>();
+        protected List<EmailAddress> emails = new ArrayList<>();
 
         public ContactBuilder setName(String name) {
             this.name = name;

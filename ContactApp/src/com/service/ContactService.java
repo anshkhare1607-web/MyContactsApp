@@ -10,6 +10,7 @@ import com.repository.ContactRepository;
 import com.observer.*;
 import com.composite.*;
 import com.search.*;
+import com.tag.*;
 import com.filter.*;
 
 
@@ -310,7 +311,8 @@ public class ContactService {
 
         System.out.print("Enter tag : ");
 
-        String tag = sc.nextLine();
+        String tagName = sc.nextLine();
+        Tag tag = TagFactory.getTag(tagName); 
 
         List<Contact> contacts = repository.findByIds(ids);
 

@@ -16,6 +16,6 @@ public class TagSearchCriteria implements SearchCriteria {
 
         return contact.getTags()
                 .stream()
-                .anyMatch(t -> t.toLowerCase().contains(tag));
+                .anyMatch(t -> t.getName().toLowerCase().contains(tag));
     }
 }

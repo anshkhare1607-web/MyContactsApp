@@ -1,8 +1,9 @@
 package com.contact;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 import java.util.UUID;
+import com.tag.*;
 
 // for contact view
 public final class ContactView {
@@ -14,6 +15,7 @@ public final class ContactView {
 	private final List<EmailAddress> emails;
 	private final LocalDateTime createdAt;
 	private final int contactCount;
+	private final Set<Tag> tags;
 
 	public ContactView(Contact contact) {
 		this.id = contact.getId();
@@ -22,6 +24,7 @@ public final class ContactView {
 		this.emails = contact.getEmails();
 		this.createdAt = contact.getCreatedAt();
 	    this.contactCount = contact.getContactCount();
+	    this.tags = contact.getTags();
 
 	}
 
@@ -32,5 +35,8 @@ public final class ContactView {
 	public LocalDateTime getCreatedAt() { return createdAt; }
 	public int getContactCount() {
 	    return contactCount;
+	}
+	public Set<Tag> getTags() {
+	    return tags;
 	}
 }

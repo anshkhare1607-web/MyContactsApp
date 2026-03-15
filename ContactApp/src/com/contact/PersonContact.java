@@ -1,4 +1,5 @@
 package com.contact;
+import com.tag.*;
 
 // person contact class
 public class PersonContact extends Contact {
@@ -19,6 +20,11 @@ public class PersonContact extends Contact {
         for (EmailAddress email : emails) {
             emailList.append(email.getEmail()).append(", ");
         }
+        
+        StringBuilder tagList = new StringBuilder();
+        for (Tag t : getTags()) {
+            tagList.append(t.getName()).append(", ");
+        }
 
         return "\n===== CONTACT DETAILS =====" +
                "\nContact Type: Person" +
@@ -26,6 +32,8 @@ public class PersonContact extends Contact {
                "\nName: " + name +
                "\nPhones: " + phoneList +
                "\nEmails: " + emailList +
+               "\nTags: " + tagList +
+               "\nContact Frequency: " + getContactCount() +
                "\nCreated At: " + createdAt;
     }
 }
