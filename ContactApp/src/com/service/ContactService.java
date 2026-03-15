@@ -8,6 +8,7 @@ import com.factory.ContactFactory;
 import com.repository.ContactRepository;
 import com.observer.*;
 import com.composite.*;
+import com.search.*;
 
 // for managing contact service
 public class ContactService {
@@ -65,6 +66,59 @@ public class ContactService {
         repository.save(contact); // saving in repository
 
         System.out.println("Contact created successfully");
+    }
+    
+    public void searchContacts() {
+
+        System.out.println("Search by : ");
+        System.out.println("1 Name");
+        System.out.println("2 Phone");
+        System.out.println("3 Email");
+        System.out.println("4 Tag");
+        System.out.print("Enter your choice : ");
+
+        String choice = sc.nextLine();
+        
+        System.out.print("Enter the value : ");
+        String value = sc.nextLine();
+
+        SearchCriteria criteria = null;
+
+        switch (choice) {
+
+            case "1":
+                criteria = new NameSearchCriteria(value);
+                break;
+
+            case "2":
+                criteria = new PhoneSearchCriteria(value);
+                break;
+
+            case "3":
+                criteria = new EmailSearchCriteria(value);
+                break;
+
+            case "4":
+                criteria = new TagSearchCriteria(value);
+                break;
+
+            default:
+                System.out.println("Invalid search option");
+                return;
+        }
+
+        FilterHandler handler = new CriteriaFilterHandler(criteria);
+
+        List<Contact> results =
+                handler.apply(repository.getAllContacts());
+
+        if (results.isEmpty()) {
+
+            System.out.println("No contacts found.");
+            return;
+        }
+
+        results.forEach(System.out::println);
     }
     
     // edit contact method

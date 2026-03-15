@@ -66,13 +66,14 @@ public class MenuController {
             System.out.println("5 Create Contact");
             System.out.println("6 View Contacts");
             System.out.println("7 View Contact Details");
-            System.out.println("8 Edit Contact");
-            System.out.println("9 Delete Contact");
-            System.out.println("10 Bulk Delete Contacts");
-            System.out.println("11 Bulk Tag Contacts");
-            System.out.println("12 Undo Edit");
-            System.out.println("13 Redo Edit");
-            System.out.println("14 Logout");
+            System.out.println("8 Search Contacts");
+            System.out.println("9 Edit Contact");
+            System.out.println("10 Delete Contact");
+            System.out.println("11 Bulk Delete Contacts");
+            System.out.println("12 Bulk Tag Contacts");
+            System.out.println("13 Undo Edit");
+            System.out.println("15 Redo Edit");
+            System.out.println("16 Logout");
             System.out.print("Enter choice : ");
 
             int choice = sc.nextInt();
@@ -109,30 +110,34 @@ public class MenuController {
                     break;
                 
                 case 8:
+                    contactService.searchContacts(); // search using different criterias
+                    break;
+                    
+                case 9:
                     contactService.editContact(); // edit contact
                     break;
                  
-                case 9:
+                case 10:
                     contactService.deleteContact(); // delete contact
                     break;
                     
-                case 10:
+                case 11:
                     contactService.bulkDeleteContacts(); // delete in bulk
                     break;
 
-                case 11:
+                case 12:
                     contactService.bulkTagContacts(); // adding tags in bulk
                     break;
                     
-                case 12:
+                case 13:
                     contactService.undoEdit(); // undo changes
                     break;
                    
-                case 13:
+                case 14:
                     contactService.redoEdit(); // redo changes
                     break;
                     
-                case 14:
+                case 15:
                     SessionManager.getInstance().logout();
                     System.out.println("Logged out successfully");
                     return;
