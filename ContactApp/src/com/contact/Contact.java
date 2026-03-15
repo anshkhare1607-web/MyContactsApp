@@ -12,6 +12,8 @@ public abstract class Contact {
     protected List<PhoneNumber> phones; // storing more than 1 phone numbers
     protected List<EmailAddress> emails; // multiple emails storage
     protected LocalDateTime createdAt; // time at which the contact is created
+    
+    private boolean deleted;
 
     protected Contact(ContactBuilder builder) {
         this.id = UUID.randomUUID();
@@ -19,6 +21,8 @@ public abstract class Contact {
         this.phones = builder.phones;
         this.emails = builder.emails;
         this.createdAt = LocalDateTime.now();
+        this.deleted = false;
+
     }
 
  // Copy constructor
@@ -58,6 +62,14 @@ public abstract class Contact {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+    
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void markDeleted() {
+        this.deleted = true;
     }
     
     // setters

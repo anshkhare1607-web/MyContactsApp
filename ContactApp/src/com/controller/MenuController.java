@@ -67,9 +67,10 @@ public class MenuController {
             System.out.println("6 View Contacts");
             System.out.println("7 View Contact Details");
             System.out.println("8 Edit Contact");
-            System.out.println("9 Undo Edit");
-            System.out.println("10 Redo Edit");
-            System.out.println("11 Logout");
+            System.out.println("9 Delete Contact");
+            System.out.println("10 Undo Edit");
+            System.out.println("11 Redo Edit");
+            System.out.println("12 Logout");
             System.out.print("Enter choice : ");
 
             int choice = sc.nextInt();
@@ -110,14 +111,18 @@ public class MenuController {
                     break;
                  
                 case 9:
+                    contactService.deleteContact(); // delete contact
+                    break;
+                    
+                case 10:
                     contactService.undoEdit(); // undo changes
                     break;
                    
-                case 10:
+                case 11:
                     contactService.redoEdit(); // redo changes
                     break;
                     
-                case 11:
+                case 12:
                     SessionManager.getInstance().logout();
                     System.out.println("Logged out successfully");
                     return;

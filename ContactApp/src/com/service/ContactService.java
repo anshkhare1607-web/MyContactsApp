@@ -6,6 +6,7 @@ import com.decorator.*;
 import com.command.*;
 import com.factory.ContactFactory;
 import com.repository.ContactRepository;
+import com.observer.*;
 
 // for managing contact service
 public class ContactService {
@@ -14,6 +15,12 @@ public class ContactService {
     private Scanner sc = new Scanner(System.in);
     
     private CommandManager commandManager = new CommandManager();
+    
+    public ContactService() {
+
+        repository.addObserver(new ContactDeletionLogger());
+
+    }
 
     public void createContact() {
 
@@ -94,6 +101,46 @@ public class ContactService {
         commandManager.redo();
         System.out.println("Redo successful");
     }
+    
+    // deleting contact using contact id
+    public void deleteContact() {
+
+        try {
+
+            System.out.print("Enter Contact ID : ");
+            String id = sc.nextLine();
+
+            Optional<Contact> contactOpt = repository.findById(id);
+
+            if (contactOpt.isEmpty()) {
+
+                System.out.println("Contact not found");
+                return;
+            }
+
+            Contact contact = contactOpt.get();
+
+            System.out.print("Are you sure you want to delete contact "
+                    + contact.getName() + " ? (yes/no) : ");
+
+            String confirm = sc.nextLine();
+
+            if (!confirm.equalsIgnoreCase("yes")) {
+
+                System.out.println("Deletion cancelled.");
+                return;
+            }
+
+            repository.delete(contact);
+
+            System.out.println("Contact deleted successfully");
+
+        } catch (Exception e) {
+
+            System.out.println("Error deleting contact : " + e.getMessage());
+
+        }
+    }
 
     // displaying contact using Contact ID
     public void viewContactDetails() {
@@ -119,6 +166,10 @@ public class ContactService {
 
     public void viewContacts() {
 
+    	if(repository.getAllContacts().isEmpty()){
+    		System.out.println("\nNo contacts found");
+    		return;
+    	}
         for (Contact contact : repository.getAllContacts()) {
             System.out.println(contact);
             System.out.println("-------------------");

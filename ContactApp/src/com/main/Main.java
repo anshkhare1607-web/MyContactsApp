@@ -1,8 +1,8 @@
 /*
- * UC-06: Edit Contact
+ * UC-07 : Delete Contact
  * 
  * author : Developer
- * version : 6.0
+ * version : 7.0
  */
 
 
