@@ -1,10 +1,7 @@
 package com.decorator;
 
-import com.contact.ContactView;
-import com.contact.PhoneNumber;
-import com.contact.EmailAddress;
+import com.contact.*;
 
-// adding more details to the contacts
 public class FormattedContactDisplay implements ContactDisplay {
 
     private ContactDisplay display;
@@ -30,6 +27,7 @@ public class FormattedContactDisplay implements ContactDisplay {
                 "\nContact ID: " + view.getId() +
                 "\nPhones: " + phones +
                 "\nEmails: " + emails +
+                "\nContact Frequency: " + view.getContactCount() +
                 "\nCreated At: " + view.getCreatedAt();
     }
 }

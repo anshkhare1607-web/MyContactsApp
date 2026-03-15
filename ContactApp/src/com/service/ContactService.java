@@ -1,5 +1,6 @@
 package com.service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import com.contact.*;
 import com.decorator.*;
@@ -9,6 +10,8 @@ import com.repository.ContactRepository;
 import com.observer.*;
 import com.composite.*;
 import com.search.*;
+import com.filter.*;
+
 
 // for managing contact service
 public class ContactService {
@@ -121,6 +124,77 @@ public class ContactService {
         results.forEach(System.out::println);
     }
     
+    // advanced filtering method
+    public void advancedFilter() {
+
+        CompositeContactFilter composite = new CompositeContactFilter();
+
+        System.out.print("Apply tag filter? (yes/no) : ");
+        String tagChoice = sc.nextLine();
+
+        if (tagChoice.equalsIgnoreCase("yes")) {
+
+            System.out.print("Enter tag : ");
+            String tag = sc.nextLine();
+
+            composite.addFilter(new TagFilter(tag));
+        }
+
+        System.out.println("Apply date filter? (yes/no) : ");
+        String dateChoice = sc.nextLine(); 
+
+        if (dateChoice.equalsIgnoreCase("yes")) {
+
+            System.out.print("Enter days ago : ");
+            int days = sc.nextInt();
+            sc.nextLine();
+
+            LocalDateTime date =
+                    LocalDateTime.now().minusDays(days);
+
+            composite.addFilter(new DateAddedFilter(date));
+        }
+
+        System.out.print("Apply frequently contacted filter? (yes/no) : ");
+        String freqChoice = sc.nextLine();
+
+        if (freqChoice.equalsIgnoreCase("yes")) {
+
+            System.out.print("Enter minimum contact count : ");
+            int count = sc.nextInt();
+            sc.nextLine();
+
+            composite.addFilter(
+                    new FrequentlyContactedFilter(count)
+            );
+        }
+
+        FilterStrategy strategy = new StreamFilterStrategy();
+
+        List<Contact> results =
+                strategy.filter(repository.getAllContacts(), composite);
+
+        System.out.println("Sort results? ");
+        System.out.println("1 Name");
+        System.out.println("2 Date Added");
+
+        int sortChoice = sc.nextInt();
+        sc.nextLine();
+
+        if (sortChoice == 1) {
+            results.sort(ContactComparator.sortByName());
+        } else {
+            results.sort(ContactComparator.sortByDate());
+        }
+
+        if (results.isEmpty()) {
+
+            System.out.println("No contacts found.");
+            return;
+        }
+
+        results.forEach(System.out::println);
+    }
     // edit contact method
     public void editContact() {
 
@@ -268,7 +342,12 @@ public class ContactService {
             return;
         }
 
-        ContactView view = new ContactView(contactOptional.get());
+        Contact contact = contactOptional.get();
+
+        // Increase frequency
+        contact.incrementContactCount();
+
+        ContactView view = new ContactView(contact);
 
         ContactDisplay display =
                 new FormattedContactDisplay(new BasicContactDisplay());

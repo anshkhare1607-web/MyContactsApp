@@ -15,7 +15,10 @@ public abstract class Contact {
     
     private Set<String> tags = new HashSet<>(); // for storing tags
     private boolean deleted; // for checking if contact is deleted
+    private int contactCount = 0;
 
+
+    
     protected Contact(ContactBuilder builder) {
         this.id = UUID.randomUUID();
         this.name = builder.name;
@@ -25,6 +28,7 @@ public abstract class Contact {
         this.deleted = false;
 
     }
+    
 
  // Copy constructor
     public Contact(Contact other) {
@@ -77,6 +81,18 @@ public abstract class Contact {
         return new HashSet<>(tags);
     }
     
+    public int getContactCount() {
+        return contactCount;
+    }
+    
+    public void incrementContactCount() {
+        contactCount++;
+    }
+
+    public void resetContactCount() {
+        contactCount = 0;
+    }
+    
     // setters
     public void setName(String name) {
         if (name == null || name.isEmpty())
@@ -106,6 +122,8 @@ public abstract class Contact {
     public void addTag(String tag) {
         tags.add(tag);
     }
+    
+    
 
     // building contact step by step
     public static class ContactBuilder {
